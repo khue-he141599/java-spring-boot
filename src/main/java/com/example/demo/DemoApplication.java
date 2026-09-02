@@ -27,7 +27,11 @@ public class DemoApplication {
 		printAnimalSound(cat);
 		printAnimalSound(bird);
 
-		// Demonstrate mutable vs immutable
+		/*
+		 * mutable: thay đổi giá trị vào object gốc vs
+		 * immutable: sẽ tạo ra 1 object mới sẽ không làm thay đổi giá trị gốc
+		 */
+
 		ImmutablePet immutable = ImmutablePet.of("Bunny", 2);
 		MutablePet mutable = new MutablePet("Bobby", 3);
 

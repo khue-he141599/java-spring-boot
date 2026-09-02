@@ -15,9 +15,14 @@ public class AnimalRepository {
 
    private final Map<Long, Animal> storage = new LinkedHashMap<>();
    private final AtomicLong idGen = new AtomicLong(1);
+   private final Set<Animal> animals = new HashSet<>();
 
    public List<Animal> findAll() {
       return new ArrayList<>(storage.values());
+   }
+
+   public Optional<Animal> hashSetAnimals(Animal animal) {
+      return animals.contains(animal) ? Optional.of(animal) : Optional.empty();
    }
 
    public Optional<Animal> findById(Long id) {

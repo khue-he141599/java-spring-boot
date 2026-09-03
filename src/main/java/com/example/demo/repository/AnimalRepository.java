@@ -13,11 +13,14 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class AnimalRepository {
 
+   // Map: ánh xạ id -> Animal, đồng thời LinkedHashMap giữ thứ tự thêm vào.
    private final Map<Long, Animal> storage = new LinkedHashMap<>();
    private final AtomicLong idGen = new AtomicLong(1);
+   // Set: minh họa collection không cho phép cùng một reference xuất hiện hai lần.
    private final Set<Animal> animals = new HashSet<>();
 
    public List<Animal> findAll() {
+      // List: collection có thứ tự, phù hợp để trả về danh sách JSON.
       return new ArrayList<>(storage.values());
    }
 

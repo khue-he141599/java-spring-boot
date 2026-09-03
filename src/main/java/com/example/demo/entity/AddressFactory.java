@@ -3,8 +3,8 @@ package com.example.demo.entity;
 
 public final class AddressFactory {
    
-   protected AddressFactory() {
-      // Private constructor to prevent instantiation
+   private AddressFactory() {
+      // Utility class: không cho phép tạo object từ bên ngoài.
    }
 
    public static Address createAddressFull(String city, String street, String zipCode) {

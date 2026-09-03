@@ -14,4 +14,10 @@ import lombok.Setter;
 public class Address {
     private String city;
     private String street;
+    private String zipCode;
+
+    protected Address(String city, String street) {
+        this.city = city;
+        this.street = street;
+    }
 }

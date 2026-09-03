@@ -1,21 +1,21 @@
 package com.example.demo.entity;
 
-/**
- * Extends dùng để kế thừa class cha, class con sẽ có tất cả các thuộc tính và
- * phương thức của class cha
- */
+import jakarta.persistence.Entity;
+
+/** Cat là một Animal, thể hiện inheritance và runtime polymorphism. */
+@Entity
 public class Cat extends Animal {
 
-    public Cat() {
+    protected Cat() {
         super();
-    }
-
-    public Cat(String name, int age, double weight) {
-        super(name, age, weight);
     }
 
     public Cat(String name, int age) {
         super(name, age);
+    }
+
+    public Cat(String name, int age, double weight) {
+        super(name, age, weight);
     }
 
     @Override

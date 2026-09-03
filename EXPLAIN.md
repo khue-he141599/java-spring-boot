@@ -29,11 +29,11 @@ Các tệp chính:
    - Polymorphism: cùng kiểu nhưng có hành vi khác (override/overload).
 
 2. **Code**
-   - [src/main/java/com/example/entity/Animal.java](src/main/java/com/example/entity/Animal.java)
-   - [src/main/java/com/example/entity/Dog.java](src/main/java/com/example/entity/Dog.java)
-   - [src/main/java/com/example/entity/Cat.java](src/main/java/com/example/entity/Cat.java)
-   - [src/main/java/com/example/entity/Bird.java](src/main/java/com/example/entity/Bird.java)
-   - [src/main/java/com/example/entity/AnimalFactory.java](src/main/java/com/example/entity/AnimalFactory.java)
+   - `src/main/java/com/example/demo/entity/Animal.java`
+   - `src/main/java/com/example/demo/entity/Dog.java`
+   - `src/main/java/com/example/demo/entity/Cat.java`
+   - `src/main/java/com/example/demo/entity/Bird.java`
+   - `src/main/java/com/example/demo/entity/AnimalFactory.java`
 
 3. **Giải thích code**
    - `Animal` là `abstract class`: không tạo instance trực tiếp, chứa thuộc tính `name, age, weight` (encapsulation: private) và các phương thức chung như `eat()`, `sleep()` và các phương thức `abstract` (`sound()`, `move()`).
@@ -41,7 +41,7 @@ Các tệp chính:
    - `AnimalFactory` cung cấp static factory methods (`createDog`, `createCat`, `createBird`, `create(type,...)`) để tạo thể hiện cụ thể dựa trên input (demonstrates polymorphism + Factory pattern).
 
 4. **OOP/Java concept đang được sử dụng**
-   - Encapsulation: private fields + generated getters/setters (Lombok `@Data` trên `Animal`).
+   - Encapsulation: private fields + getter/setter có validation trong `Animal`; Lombok vẫn được dùng phù hợp ở các DTO/entity đơn giản.
    - Inheritance: `extends`.
    - Abstraction: `abstract class` + `abstract methods`.
    - Polymorphism: overriding (e.g., `sound()`), overloading (constructors in `Animal`).
@@ -65,7 +65,7 @@ Các tệp chính:
    - `static` thuộc về class, không thuộc instance.
 
 2. **Code**
-   - [src/main/java/com/example/entity/Animal.java](src/main/java/com/example/entity/Animal.java) (ví dụ `public static final String ANIMAL_TYPE`)
+   - `src/main/java/com/example/demo/entity/Animal.java` (ví dụ `public static final String ANIMAL_TYPE`)
    - [src/main/java/com/example/demo/controller/AnimalResponse.java](src/main/java/com/example/demo/controller/AnimalResponse.java) (`public static AnimalResponse from(Animal)`)
 
 3. **Giải thích code**
@@ -128,7 +128,7 @@ Các tệp chính:
 
 2. **Code**
    - Immutable example: [src/main/java/com/example/demo/immutable/ImmutablePet.java](src/main/java/com/example/demo/immutable/ImmutablePet.java)
-   - Mutable example: [src/main/java/com/example/entity/Owner.java](src/main/java/com/example/entity/Owner.java) (hasters/setters via Lombok)
+   - Mutable example: `src/main/java/com/example/demo/entity/Owner.java` (getters/setters via Lombok)
 
 3. **Giải thích code**
    - `ImmutablePet` có field `final`, không có setter và constructor private + static factory `of()`.
@@ -213,7 +213,7 @@ Các tệp chính:
 
 2. **Code**
    - Spring: `@RestController`, `@Service`, `@Repository` trong các tệp controller/service/repository.
-   - JPA: `@Entity`, `@Id` ví dụ trong [src/main/java/com/example/entity/Owner.java](src/main/java/com/example/entity/Owner.java)
+   - JPA: `@Entity`, `@Id` ví dụ trong `src/main/java/com/example/demo/entity/Owner.java`
    - Lombok: `@Getter`, `@Setter`, `@Data`, `@Builder`, `@NoArgsConstructor`, `@AllArgsConstructor` trong entity classes.
 
 3. **Giải thích code**

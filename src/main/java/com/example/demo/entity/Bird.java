@@ -1,8 +1,12 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Entity;
+
+/** Bird là class con cụ thể của Animal. */
+@Entity
 public class Bird extends Animal {
 
-    public Bird() {
+    protected Bird() {
         super();
     }
 

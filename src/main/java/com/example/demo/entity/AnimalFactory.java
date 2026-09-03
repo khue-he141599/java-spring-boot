@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+/** Factory tập trung logic tạo object, thay vì để controller biết từng constructor. */
 public final class AnimalFactory {
 
    private AnimalFactory() {
@@ -18,9 +19,10 @@ public final class AnimalFactory {
       return new Bird(name, age, weight);
    }
 
+   /** Runtime polymorphism: kiểu trả về là Animal, object thật là class con. */
    public static Animal create(String type, String name, int age, double weight) {
-      if (type == null) {
-         return createDog(name, age, weight);
+      if (type == null || type.isBlank()) {
+         throw new IllegalArgumentException("Animal type must not be blank");
       }
       switch (type.trim().toLowerCase()) {
          case "dog":
@@ -30,7 +32,7 @@ public final class AnimalFactory {
          case "bird":
             return createBird(name, age, weight);
          default:
-            return createDog(name, age, weight);
+            throw new IllegalArgumentException("Unsupported animal type: " + type);
       }
    }
 }

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.entity.Address;
+import com.example.demo.entity.AddressFactory;
 import com.example.demo.entity.Animal;
 import com.example.demo.entity.AnimalFactory;
 import com.example.demo.immutable.ImmutablePet;
@@ -18,6 +20,12 @@ public class DemoApplication {
 		Animal dog = AnimalFactory.createDog("Lucky", 3, 12.5);
 		Animal cat = AnimalFactory.createCat("Mimi", 2, 4.5);
 		Animal bird = AnimalFactory.createBird("Sky", 1, 0.8);
+
+		Address addressFull = AddressFactory.createAddressFull("New York", "5th Avenue", "10001");
+		System.out.println("Address: " + addressFull.getCity() + ", " + addressFull.getStreet() + ", " + addressFull.getZipCode());
+
+		Address address = AddressFactory.createAddress("Los Angeles", "Sunset Boulevard");
+		System.out.println("Address: " + address.getCity() + ", " + address.getStreet());
 
 		System.out.println(dog.describe());
 		System.out.println(cat.describe());

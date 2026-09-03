@@ -17,18 +17,18 @@ public class Animal {
 Object là thực thể được tạo ra từ class.
 
 ```java
-Animal animal = new Animal();
+Animal animal = new Dog("Milo", 3, 12.5);
 ```
 
 ### Giải thích từng phần:
 
 ```java
-Animal animal = new Animal();
+Animal animal = new Dog("Milo", 3, 12.5);
 ```
 
 - `Animal` ở trái: kiểu dữ liệu / reference type
 - `animal`: biến tham chiếu (reference variable)
-- `new Animal()`: tạo mới object trong heap
+- `new Dog(...)`: tạo object cụ thể trong heap; không thể `new Animal()` vì Animal là abstract
 - Object thực tế: vùng nhớ được JVM cấp phát
 - `animal` không phải object, nó chỉ trỏ tới object
 

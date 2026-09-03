@@ -1,121 +1,134 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
-@Data
-@Entity(name = "Animal")
-@NoArgsConstructor
-@AllArgsConstructor
-/*
- * abstract tính trừu tượng: thường được sử dụng ở class cha, không thể khởi tạo
- * đối tượng trực tiếp từ class này, chỉ có thể khởi tạo từ các class con kế
- * thừa nó
+/**
+ * Lớp cha trừu tượng cho mọi động vật.
+ *
+ * <p>
+ * Thứ tự thường dùng trong một class: field, constructor, getter/setter,
+ * hành vi public, method hỗ trợ và các method override.
+ * </p>
+ *
+ * <p>
+ * {@code @Inheritance} khai báo rõ với JPA rằng các class con cùng thuộc
+ * hierarchy của bảng {@code animals}.
+ * </p>
  */
+@Entity
+@Table(name = "animals")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Animal {
 
-    /**
-     * encapsulation tính đóng gói: các thuộc tính của class được khai báo là
-     * private,
-     * chỉ có thể truy cập thông qua các phương thức getter và setter
-     *
-     * Ghi nhớ nhanh:
-     * - private: chỉ class đó biết
-     * - default/package-private: chỉ cùng package biết
-     * - protected: cùng package + class con biết
-     * - public: ai cũng biết
-     */
+    /** Hằng số thuộc về class, không thuộc riêng một object. */
+    public static final String ANIMAL_TYPE = "Animal";
+
+    /** Field private giúp bảo vệ dữ liệu theo nguyên tắc đóng gói. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
     private int age;
     private double weight;
-    private String sound;
 
     /**
-     * static final: thuộc về class, không thay đổi được.
-     * Dùng cho hằng số chung của tất cả đối tượng.
+     * JPA cần constructor này; protected nên code bên ngoài không tùy ý gọi, chỉ
+     * các class con thì mới có thể sử dụng.
      */
-    public static final String ANIMAL_TYPE = "Animal";
+    protected Animal() {
+    }
 
-    /**
-     * public: có thể truy cập từ bất kỳ class nào
-     * => nên dùng khi muốn mở rộng phạm vi truy cập cho tất cả.
-     */
-    public String another;
-
-    /**
-     * default: chỉ có thể truy cập(gắn trực tiếp gía trị vào cho thuộc tính) từ các
-     * class trong cùng package
-     * => dùng khi muốn giới hạn access trong cùng package.
-     */
-    String defaultPackagePrivate;
-
-    /**
-     * protected constructor: chỉ có thể truy cập từ các class con kế thừa, không
-     * thể truy cập từ các class khác
-     *
-     * Ví dụ: Cat extends Animal thì Cat có thể gọi constructor này.
-     */
+    /** Constructor overload: khởi tạo object khi chưa biết cân nặng. */
     protected Animal(String name, int age) {
-        this.name = name;
+        setName(name);
+        setAge(age);
+    }
+
+    /** Constructor overload: khác constructor trên bởi số lượng tham số. */
+    protected Animal(String name, int age, double weight) {
+        this(name, age);
+        setWeight(weight);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            /* Đây là built-in exception */
+            throw new IllegalArgumentException("Animal name must not be blank");
+        }
+        this.name = name.trim();
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age < 0) {
+            /* Đây là built-in exception */
+            throw new IllegalArgumentException("Animal age must not be negative");
+        }
         this.age = age;
     }
 
-    /**
-     * Tính đa hình: phương thức có thể có nhiều dạng khác nhau, nhưng phải cùng
-     * tên,
-     * khác nhau về số lượng hoặc kiểu dữ liệu của tham số
-     * constructor: phương thức khởi tạo đối tượng, có thể có nhiều constructor
-     * khác nhau, nhưng phải khác nhau về số lượng hoặc kiểu dữ liệu của tham số
-     *
-     * Overloading: cùng tên nhưng tham số khác nhau.
-     * Ví dụ: Animal(String, int, double) và Animal(String, int, String)
-     */
-    public Animal(String name, int age, double weight) {
-        this.name = name;
-        this.age = age;
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        if (weight < 0) {
+            throw new IllegalArgumentException("Animal weight must not be negative");
+        }
         this.weight = weight;
     }
 
-    public Animal(String name, int age, String sound) {
-        this.name = name;
-        this.age = age;
-        this.sound = sound;
+    /** Hành vi chung có thể dùng lại bởi mọi class con. */
+    public void eat() {
+        System.out.println(name + " is eating");
     }
 
-    /**
-     * method: phương thức của class, có thể truy cập từ các class khác
-     *
-     * Đây là hành vi chung của mọi Animal.
-     * Mỗi class con có thể override nếu cần.
-     */
+    /** Method overloading: cùng tên, khác danh sách tham số. */
     public void eat(String food) {
         System.out.println(name + " is eating " + food);
+    }
+
+    /** Method overloading lần thứ hai: thêm số lượng thức ăn. */
+    public void eat(String food, int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Food amount must not be negative");
+        }
+        System.out.println(name + " is eating " + amount + " portions of " + food);
     }
 
     public void sleep() {
         System.out.println(name + " is sleeping");
     }
 
-    /**
-     * abstract method: phương thức trừu tượng, không có phần thân, chỉ có khai báo,
-     * các class con kế thừa phải implement phương thức này
-     *
-     * Abstraction: class cha định nghĩa hành vi chung,
-     * class con quyết định cách triển khai cụ thể.
-     */
+    /** Abstraction: class con bắt buộc cung cấp cách phát ra âm thanh. */
     public abstract String sound();
 
+    /** Abstraction: class con bắt buộc cung cấp cách di chuyển. */
     public abstract String move();
 
-    /**
-     * Polymorphism: cùng một method describe() nhưng output khác nhau tùy từng class con.
-     * Vì getClass().getSimpleName() trả về Dog, Cat, Bird ...
-     */
+    /** Polymorphism: sound() và move() được dispatch theo object thật runtime. */
     public String describe() {
         return getClass().getSimpleName() + "{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", weight=" + weight +
                 ", sound='" + sound() + '\'' +
@@ -123,17 +136,7 @@ public abstract class Animal {
                 '}';
     }
 
-    /**
-     * Tính đa hình: Override ghi đè lại phương thức của class cha, có thể thay đổi
-     * phần thân của phương thức
-     * 
-     * override phương thức toString() của class Object, để in ra thông tin của đối
-     * tượng
-     *
-     * Ghi nhớ:
-     * - Overriding: cùng tên, cùng tham số, khác phần thân trong class con.
-     * - Overloading: cùng tên, khác tham số.
-     */
+    /** Overriding: ghi đè toString() của Object. */
     @Override
     public String toString() {
         return describe();

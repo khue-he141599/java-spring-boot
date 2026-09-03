@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * In-memory repository to keep the example simple and focused on concepts.
+ * In-memory repository để ví dụ tập trung vào OOP và collection.
  */
 @Repository
 public class AnimalRepository {
@@ -21,7 +21,10 @@ public class AnimalRepository {
       return new ArrayList<>(storage.values());
    }
 
-   public Optional<Animal> hashSetAnimals(Animal animal) {
+   /**
+    * Tìm object trong Set. Set dùng equals/hashCode của object để xác định trùng.
+    */
+   public Optional<Animal> findInSet(Animal animal) {
       return animals.contains(animal) ? Optional.of(animal) : Optional.empty();
    }
 
@@ -32,6 +35,7 @@ public class AnimalRepository {
    public Long save(Animal animal) {
       Long id = idGen.getAndIncrement();
       storage.put(id, animal);
+      animals.add(animal);
       return id;
    }
 
